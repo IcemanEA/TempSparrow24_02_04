@@ -14,9 +14,11 @@ import UIKit
 
 class ViewController: UIViewController {
 	
-	private lazy var firstButton = makeButton(with: "First Button")
-	private lazy var secondButton = makeButton(with: "Second Medium Button")
-	private lazy var thirdButton = makeButton(with: "Third")
+	private lazy var firstButton = AnimatedButton(title: "First Button")
+	private lazy var secondButton = AnimatedButton(title: "Second Medium Button")
+	private lazy var thirdButton = AnimatedButton(title: "Third", action: openModalView)
+	
+	private var buttons: [AnimatedButton] = []
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -27,11 +29,33 @@ class ViewController: UIViewController {
 	private func setup() {
 		view.backgroundColor = .white
 		
-		view.addSubview(firstButton)
-		view.addSubview(secondButton)
-		view.addSubview(thirdButton)
+		buttons = [firstButton, secondButton, thirdButton]
+		buttons.forEach { view.addSubview($0) }
 		
 		layout()
+	}
+	
+	private func openModalView() {
+		buttons.forEach { $0.isEnabled = false }
+		
+		let modalVC = ModalViewController()
+		let nav = UINavigationController(rootViewController: modalVC)
+		
+		nav.presentationController?.delegate = self
+		if let sheet = nav.sheetPresentationController {
+			sheet.detents = [.large()]
+			sheet.largestUndimmedDetentIdentifier = .large
+		}
+		
+		present(nav, animated: true)
+	}
+}
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+
+extension ViewController: UIAdaptivePresentationControllerDelegate {
+	func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+		buttons.forEach { $0.isEnabled = true }
 	}
 }
 
@@ -42,28 +66,14 @@ private extension ViewController {
 	private func layout() {
 		NSLayoutConstraint.activate(
 			[
-				firstButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-				firstButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+				firstButton.centerXAnchor.constraint(equalTo:  view.centerXAnchor),
+				firstButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 				secondButton.centerXAnchor.constraint(equalTo: firstButton.centerXAnchor),
 				secondButton.topAnchor.constraint(equalTo: firstButton.bottomAnchor, constant: 8),
 				thirdButton.centerXAnchor.constraint(equalTo: secondButton.centerXAnchor),
 				thirdButton.topAnchor.constraint(equalTo: secondButton.bottomAnchor, constant: 8),
 			]
 		)
-	}
-}
-
-// MARK: - Constructors
-
-private extension ViewController {
-	
-	func makeButton(with title: String) -> UIButton {
-		let button = UIButton(type: .system)
-		button.translatesAutoresizingMaskIntoConstraints = false
-		
-		button.setTitle(title, for: .normal)
-		
-		return button
 	}
 }
 

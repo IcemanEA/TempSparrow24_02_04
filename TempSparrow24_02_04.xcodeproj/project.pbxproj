@@ -12,6 +12,8 @@
 		482DE1E82B6F95E10062C309 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DE1E72B6F95E10062C309 /* ViewController.swift */; };
 		482DE1ED2B6F95E30062C309 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 482DE1EC2B6F95E30062C309 /* Assets.xcassets */; };
 		482DE1F02B6F95E30062C309 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 482DE1EE2B6F95E30062C309 /* LaunchScreen.storyboard */; };
+		482DE1F82B6FE0260062C309 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DE1F72B6FE0260062C309 /* ModalViewController.swift */; };
+		482DE1FA2B7002870062C309 /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DE1F92B7002870062C309 /* AnimatedButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		482DE1EC2B6F95E30062C309 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		482DE1EF2B6F95E30062C309 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		482DE1F12B6F95E30062C309 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		482DE1F72B6FE0260062C309 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
+		482DE1F92B7002870062C309 /* AnimatedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,8 @@
 				482DE1E32B6F95E10062C309 /* AppDelegate.swift */,
 				482DE1E52B6F95E10062C309 /* SceneDelegate.swift */,
 				482DE1E72B6F95E10062C309 /* ViewController.swift */,
+				482DE1F92B7002870062C309 /* AnimatedButton.swift */,
+				482DE1F72B6FE0260062C309 /* ModalViewController.swift */,
 				482DE1EC2B6F95E30062C309 /* Assets.xcassets */,
 				482DE1EE2B6F95E30062C309 /* LaunchScreen.storyboard */,
 				482DE1F12B6F95E30062C309 /* Info.plist */,
@@ -134,8 +140,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				482DE1F82B6FE0260062C309 /* ModalViewController.swift in Sources */,
 				482DE1E82B6F95E10062C309 /* ViewController.swift in Sources */,
 				482DE1E42B6F95E10062C309 /* AppDelegate.swift in Sources */,
+				482DE1FA2B7002870062C309 /* AnimatedButton.swift in Sources */,
 				482DE1E62B6F95E10062C309 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
