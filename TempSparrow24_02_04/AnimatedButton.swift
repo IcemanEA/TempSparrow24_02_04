@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Анимированная кнопка с кастомным дизайном дополнительных состояний
 final class AnimatedButton: UIButton {
 	private let title: String
 	private let action: (() -> Void)?
@@ -14,6 +15,13 @@ final class AnimatedButton: UIButton {
 	
 	private var isAnimating = false
 	
+	// MARK: - Initialize
+	
+	/// Создать анимированную кнопку с кастомным дизайном дополнительных состояний
+	/// - Parameters:
+	///   - title: Заголовок кнопки
+	///   - iconName: Иконка на кнопке
+	///   - action: Действие, вызываемое при нажатии
 	init(title: String, iconName: String = "arrow.right.circle.fill", action: (() -> Void)? = nil) {
 		self.title = title
 		self.action = action
@@ -31,6 +39,24 @@ final class AnimatedButton: UIButton {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	
+	// MARK: - Override methods
+	
+	override func tintColorDidChange() {
+		var config = configuration
+		
+		super.tintColorDidChange()
+		switch tintAdjustmentMode {
+		case .dimmed:
+			config = createDisableConfig(for: self)
+		default:
+			config = createDefaultConfig()
+		}
+		
+		configuration = config
+	}
+	
+	// MARK: - Private methods
 	
 	private func setupAction() {
 		addAction(UIAction { _ in
@@ -96,6 +122,7 @@ final class AnimatedButton: UIButton {
 			default:
 				config = createDefaultConfig()
 			}
+			
 			button.configuration = config
 		}
 	}
@@ -125,7 +152,7 @@ final class AnimatedButton: UIButton {
 		config?.baseForegroundColor = foregroundColor
 		
 		var container = AttributeContainer()
-		container.foregroundColor = button.isEnabled ? .white : .systemGray3
+		container.foregroundColor = foregroundColor
 		
 		let title = config?.title ?? ""
 		config?.attributedTitle = AttributedString(title, attributes: container)
