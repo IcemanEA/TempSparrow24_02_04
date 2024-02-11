@@ -8,12 +8,18 @@
 import UIKit
 
 /// Анимированная кнопка с кастомным дизайном дополнительных состояний
-final class AnimatedButton: UIButton {
+final class AnimatedUIButton: UIButton {
 	private let title: String
 	private let action: (() -> Void)?
 	private let iconName: String
 	
-	private var isAnimating = false
+	override var isHighlighted: Bool {
+		didSet {
+			UIView.animate(withDuration: 0.15, delay: 0, options: [.beginFromCurrentState, .allowUserInteraction]) {
+				self.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.9, y: 0.9) : .identity
+			}
+		}
+	}
 	
 	// MARK: - Initialize
 	
@@ -31,7 +37,10 @@ final class AnimatedButton: UIButton {
 		
 		self.configuration = createDefaultConfig()
 		self.setupHandler()
-		self.setupAction()
+		
+		if let action {
+			addAction(UIAction { _ in action() }, for: .touchUpInside)
+		}
 		
 		self.translatesAutoresizingMaskIntoConstraints = false
 	}
@@ -43,46 +52,28 @@ final class AnimatedButton: UIButton {
 	// MARK: - Override methods
 	
 	override func tintColorDidChange() {
-		var config = configuration
-		
 		super.tintColorDidChange()
+		
 		switch tintAdjustmentMode {
 		case .dimmed:
-			config = createDisableConfig(for: self)
+			configuration = createDisableConfig(for: self)
 		default:
-			config = createDefaultConfig()
+			configuration = createDefaultConfig()
 		}
-		
-		configuration = config
 	}
 	
 	// MARK: - Private methods
 	
-	private func setupAction() {
-		addAction(UIAction { _ in
-			self.animateButton(self)
-		}, for: .touchDown)
-		
-		addAction(
-			UIAction { _ in
-				self.animateButton(self)
-				(self.action ?? {})()
-			}, for: .touchUpInside
-		)
-	}
-	
-	private func animateButton(_ button: UIButton) {
-		if isAnimating {
-			UIView.animate(withDuration: 0.1, animations: {
-				button.transform = .identity
-			}) { _ in
-				self.isAnimating = false
+	private func setupHandler() {
+		configurationUpdateHandler = { [unowned self] button in
+			switch button.state {
+			case .highlighted:
+				button.configuration = createHighlightedConfig(for: button)
+			case .disabled:
+				button.configuration = createDisableConfig(for: button)
+			default:
+				button.configuration = createDefaultConfig()
 			}
-		} else {
-			isAnimating = true
-			UIView.animate(withDuration: 0.1, animations: {
-				button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-			})
 		}
 	}
 	
@@ -108,23 +99,6 @@ final class AnimatedButton: UIButton {
 		config.baseForegroundColor = .white
 		
 		return config
-	}
-	
-	private func setupHandler() {
-		configurationUpdateHandler = { [unowned self] button in
-			var config = button.configuration
-			
-			switch button.state {
-			case .highlighted:
-				config = createHighlightedConfig(for: button)
-			case .disabled:
-				config = createDisableConfig(for: button)
-			default:
-				config = createDefaultConfig()
-			}
-			
-			button.configuration = config
-		}
 	}
 	
 	private func createHighlightedConfig(for button: UIButton) -> UIButton.Configuration? {

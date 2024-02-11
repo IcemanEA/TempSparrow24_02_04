@@ -9,11 +9,11 @@ import UIKit
 
 class ViewController: UIViewController {
 	
-	private lazy var firstButton = AnimatedButton(title: "First Button")
-	private lazy var secondButton = AnimatedButton(title: "Second Medium Button")
-	private lazy var thirdButton = AnimatedButton(title: "Third", action: openModalView)
+	private lazy var firstButton = AnimatedUIButton(title: "First Button")
+	private lazy var secondButton = AnimatedUIButton(title: "Second Middle Button")
+	private lazy var thirdButton = AnimatedUIButton(title: "Third", action: openModalView)
 	
-	private var buttons: [AnimatedButton] = []
+	private var buttons: [AnimatedUIButton] = []
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
